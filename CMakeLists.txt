@@ -20,7 +20,10 @@ add_executable (${PROJECT_NAME}
 	extern/glad/src/glad.c
 )
 
-add_subdirectory(extern/glfw)
+add_subdirectory(
+	extern/glfw
+	extern/quill_logger
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	glfw
@@ -29,6 +32,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	extern/glad/include
+	extern/quill_logger/include
 	extern
 	src/
 )

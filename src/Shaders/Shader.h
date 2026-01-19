@@ -6,10 +6,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 
+#include <quill/SimpleSetup.h>
+#include <quill/LogFunctions.h>
 
-class Shader {
+class Shader
+{
 public:
-	unsigned int ID;
+	GLuint m_ID;
+
 	Shader(const char* vertexPath, const char* fragmentPath);
 	Shader(std::string vertexPath, std::string fragmentPath);
 	Shader(std::string vertexPath, std::string geometryPath, std::string fragmentPath);
@@ -26,11 +30,16 @@ public:
 	void setVec3(const std::string& name, glm::vec3 value) const;
 
 private:
+	quill::v11::Logger* logger = quill::simple_logger();
 
-	void shaderInit(const char* vertexPath, const char* fragmentPath);
-	void shaderInit(const char* vertexPath, const char* geometryPath, const char* fragmentPath);
+	std::string m_vertexSource;
 
-	void checkCompilationErrors(unsigned int shader, std::string type);
+	std::string readFile(const std::string& filePath);
+
+	void initShader(const char* vertexPath, const char* fragmentPath);
+	void initShader(const char* vertexPath, const char* geometryPath, const char* fragmentPath);
+
+	void checkCompilationErrors(uint32_t shader, std::string_view type);
 
 	void checkShaderCompilation(const unsigned int& shader, std::string path);
 	void checkProgramCompilation(const unsigned int& shader);
