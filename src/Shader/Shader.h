@@ -12,12 +12,12 @@
 class Shader
 {
 public:
-	GLuint m_ID;
+	uint32_t m_ID;
 
 	Shader(const char* vertexPath, const char* fragmentPath);
 	Shader(std::string vertexPath, std::string fragmentPath);
 	Shader(std::string vertexPath, std::string geometryPath, std::string fragmentPath);
-	Shader();
+	Shader() = delete;
 	void use();
 
 	// set uniform vairables
@@ -33,6 +33,7 @@ private:
 	quill::v11::Logger* logger = quill::simple_logger();
 
 	std::string m_vertexSource;
+	std::string m_fragmentSource;
 
 	std::string readFile(const std::string& filePath);
 
@@ -41,6 +42,6 @@ private:
 
 	void checkCompilationErrors(uint32_t shader, std::string_view type);
 
-	void checkShaderCompilation(const unsigned int& shader, std::string path);
-	void checkProgramCompilation(const unsigned int& shader);
+	void checkShaderCompilation(const uint32_t shader, std::string_view filePath);
+	void checkProgramCompilation(const uint32_t shaderProgram);
 };

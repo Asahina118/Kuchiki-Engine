@@ -7,7 +7,7 @@
 class Camera
 {
 public:
-	static enum CameraMovement
+	enum class CameraMovement
 	{
 		FORWARD,
 		BACKWARD,

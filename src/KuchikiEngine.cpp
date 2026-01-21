@@ -10,7 +10,7 @@
 
 #include "Window/Window.h"
 
-#include "Shaders/Shader.h"
+#include "Shader/Shader.h"
 #include "Entities/Shapes.h"
 
 #include <quill/SimpleSetup.h>
@@ -25,7 +25,7 @@ int main()
 	const unsigned SCR_HEIGHT = 600;
 	Window window(SCR_WIDTH, SCR_HEIGHT);
 
-	std::array<float, 9> cubeVertices = Shapes::cubeVertices;
+	std::array<float, 9> triangleVertices = Shapes::triangleVertices;
 
 	unsigned VAO, VBO;
 	glGenVertexArrays(1, &VAO);
@@ -34,23 +34,24 @@ int main()
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, cubeVertices.size(), cubeVertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, triangleVertices.size() * sizeof(float), triangleVertices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, cubeVertices.size(), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	glBindVertexArray(0);
 
-	Shader shader("Shaders/GLSL/cube.vert", "Shaders/GLSL/cube.frag");
-
-
-	//glShaderSource(vertexShader, 1, )
+	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
 
 	while (!window.windowShouldClose()) {
 		window.processInput();
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		shader.use();
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(window.getWindow());
 		glfwPollEvents();
