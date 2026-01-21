@@ -21,7 +21,7 @@ add_executable (${PROJECT_NAME}
 )
 
 add_subdirectory(
-	extern/glfw
+	extern/GLFW
 	extern/quill_logger
 )
 
