@@ -37,7 +37,13 @@ int main()
 	Window window(SCR_WIDTH, SCR_HEIGHT);
 	InputHandler inputHandler(window, camera);
 	
-	// Mesh ======================================================
+
+	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
+	shader.use();
+	shader.setInt("simpleTexture", 0);
+	shader.setMat4("model", glm::mat4(1.0f));
+
+
 	uint32_t VAO, VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -58,16 +64,8 @@ int main()
 
 	glBindVertexArray(0);
 
-	// end Mesh ==================================================
-
-	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
-	shader.use();
-	shader.setInt("simpleTexture", 0);
-	shader.setMat4("model", glm::mat4(1.0f));
-
-
-
-	// texture loading
+	// texture loading	
+	 
 	uint32_t texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);

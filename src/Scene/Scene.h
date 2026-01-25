@@ -5,9 +5,5 @@
 class Scene
 {
 public:
-	Scene(Window&, Camera&);
-
-private:
-	Window& m_window;
-	Camera& m_camera;
+	virtual void render() = 0;
 };
