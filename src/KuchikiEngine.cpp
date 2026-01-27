@@ -94,11 +94,12 @@ int main()
 	// end of texture loading
 
 	TestScene testScene(window);
+	testScene.render();
 
 	while (!window.windowShouldClose()) {
 		inputHandler.processInput();
 
-		printCameraInfo(camera);//debug
+		//printCameraInfo(camera);//debug
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);

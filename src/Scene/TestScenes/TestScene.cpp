@@ -6,6 +6,7 @@
 #include "Shader/Shader.h"
 
 #include <stb_image/stb_image.h>
+#include <iostream>
 
 TestScene::TestScene(Window& window)
 	: m_window(window)
@@ -14,9 +15,10 @@ TestScene::TestScene(Window& window)
 	m_meshBuffer.reserve(10);
 	m_shaderBuffer.reserve(10);
 
-	m_meshBuffer.emplace_back(5u, 3u);
+	m_meshBuffer.emplace_back(1u, 5u, 5u);
 
 	Mesh tempMesh = m_meshBuffer[0];
+
 
 	quill::info(g_logger, "testing m_meshBuffer: {} {}", tempMesh.textureId, tempMesh.VAO);
 }
@@ -24,13 +26,14 @@ TestScene::TestScene(Window& window)
 void TestScene::render()
 {
 	initScene();
+	initMeshes();
 
 	if (!m_window.windowShouldClose()) {
 		startFrame();
 
 		for (Mesh mesh : m_meshBuffer) {
 			glUseProgram(mesh.shaderId);
-
+			quill::info(g_logger, "current mesh has VAO: {}\n", mesh.VAO);
 		}
 
 		endFrame();
@@ -40,6 +43,11 @@ void TestScene::render()
 void TestScene::initScene()
 {
 	stbi_set_flip_vertically_on_load(true);
+}
+
+void TestScene::initMeshes()
+{
+	initTestCube();
 }
 
 void TestScene::startFrame()
@@ -116,4 +124,6 @@ Shader& TestScene::getShader(const std::string& name)
 	//	throw
 	//}
 	//return *it->second;
+	static Shader _(",", ",");
+	return _;
 }

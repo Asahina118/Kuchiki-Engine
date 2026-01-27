@@ -8,9 +8,14 @@ Texture::Texture(const std::string& filePath)
 {
 	glGenTextures(1, &m_id);
 	if (loadFromFile(filePath))
-		quill::info(g_logger, "Loaded");
+		quill::info(g_logger, "Loaded texture from file {}", filePath);
 	else
-		quill::error(g_logger, "Failed to load texture from {}", filePath);
+		quill::error(g_logger, "Failed to load texture from file {}", filePath);
+}
+
+uint32_t Texture::getId() const
+{
+	return m_id;
 }
 
 bool Texture::loadFromFile(const std::string& filePath)

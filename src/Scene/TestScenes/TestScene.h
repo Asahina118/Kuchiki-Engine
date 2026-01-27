@@ -28,11 +28,15 @@ private:
 
 	std::vector<Mesh> m_meshBuffer;
 	std::vector<Shader> m_shaderBuffer;
+
+	//std::vector<uint32_t> m_shaderBuffer;
 	
 	void startFrame();
 	void endFrame();
 	void initScene();
 
+
+	void initMeshes();
 
 	Shader& getShader(const std::string& name);
 

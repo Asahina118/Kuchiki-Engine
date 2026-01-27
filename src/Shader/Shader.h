@@ -17,7 +17,7 @@ public:
 	Shader(const char* vertexPath, const char* fragmentPath);
 	Shader(const std::string& vertexPath, const std::string& fragmentPath);
 	Shader(const std::string& vertexPath, const std::string& geometryPath, std::string fragmentPath);
-	Shader() = delete;
+	Shader() = default;
 	void use();
 
 	// set uniform vairables
