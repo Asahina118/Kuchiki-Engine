@@ -1,4 +1,4 @@
-#ifdef DEBUG
+//#if def DEBUG
 #define GL_ASSERT_UNIFORM_FOUND(call) do {\
 	call;\
 	GLenum errorState = glGetError();\
@@ -7,9 +7,9 @@
 	}\
 }\
 while (0)
-#else
-#define GL_ASSERT(call) call
-#endif
+//#else
+//#define GL_ASSERT(call) call
+//#endif
 
 #include "Shader.h"
 
@@ -27,14 +27,14 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	initShader(vertexPath, fragmentPath);
 }
 
-Shader::Shader(std::string vertexPath, std::string fragmentPath)
+Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
 	initShader(vertexPath.c_str(), fragmentPath.c_str());
 }
 
 void Shader::use()
 {
-	glUseProgram(m_ID);
+	glUseProgram(m_id);
 }
 
 std::string Shader::readFile(const std::string& filePath)
@@ -66,11 +66,11 @@ void Shader::initShader(const char* vertexPath, const char* fragmentPath)
 	glCompileShader(fragmentShader);
 	checkShaderCompilation(fragmentShader, fragmentPath);
 
-	m_ID = glCreateProgram();
-	glAttachShader(m_ID, vertexShader);
-	glAttachShader(m_ID, fragmentShader);
-	glLinkProgram(m_ID);
-	checkProgramCompilation(m_ID);
+	m_id = glCreateProgram();
+	glAttachShader(m_id, vertexShader);
+	glAttachShader(m_id, fragmentShader);
+	glLinkProgram(m_id);
+	checkProgramCompilation(m_id);
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
@@ -106,52 +106,52 @@ void Shader::checkProgramCompilation(const uint32_t shaderProgram)
 
 void Shader::setBool(const std::string& name, bool value) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform1i(glGetUniformLocation(m_ID, name.c_str()), static_cast<int32_t>(value)));
+	GL_ASSERT_UNIFORM_FOUND(glUniform1i(glGetUniformLocation(m_id, name.c_str()), static_cast<int32_t>(value)));
 }
 
 void Shader::setInt(const std::string& name, int value) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform1i(glGetUniformLocation(m_ID, name.c_str()), value));
+	GL_ASSERT_UNIFORM_FOUND(glUniform1i(glGetUniformLocation(m_id, name.c_str()), value));
 }
 
 void Shader::setFloat(const std::string& name, float value) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform1f(glGetUniformLocation(m_ID, name.c_str()), value));
+	GL_ASSERT_UNIFORM_FOUND(glUniform1f(glGetUniformLocation(m_id, name.c_str()), value));
 }
 
 void Shader::setMat4(const std::string& name, glm::mat4 transform) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniformMatrix4fv(glGetUniformLocation(m_ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(transform)));
+	GL_ASSERT_UNIFORM_FOUND(glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, GL_FALSE, glm::value_ptr(transform)));
 }
 
 void Shader::setVec2(const std::string& name, glm::vec2 value) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform2f(glGetUniformLocation(m_ID, name.c_str()), value.x, value.y));
+	GL_ASSERT_UNIFORM_FOUND(glUniform2f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y));
 }
 
 void Shader::setVec2(const std::string& name, float x, float y) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform2f(glGetUniformLocation(m_ID, name.c_str()), x, y));
+	GL_ASSERT_UNIFORM_FOUND(glUniform2f(glGetUniformLocation(m_id, name.c_str()), x, y));
 }
 
 void Shader::setVec3(const std::string& name, glm::vec3 value) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform3f(glGetUniformLocation(m_ID, name.c_str()), value.x, value.y, value.z));
+	GL_ASSERT_UNIFORM_FOUND(glUniform3f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z));
 }
 
 void Shader::setVec3(const std::string& name, float x, float y, float z) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform3f(glGetUniformLocation(m_ID, name.c_str()), x, y, z));
+	GL_ASSERT_UNIFORM_FOUND(glUniform3f(glGetUniformLocation(m_id, name.c_str()), x, y, z));
 }
 
 void Shader::setVec4(const std::string& name, glm::vec4 value) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform4f(glGetUniformLocation(m_ID, name.c_str()), value.x, value.y, value.z, value.w));
+	GL_ASSERT_UNIFORM_FOUND(glUniform4f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z, value.w));
 }
 
 void Shader::setVec4(const std::string& name, float x, float y, float z, float w) const
 {
-	GL_ASSERT_UNIFORM_FOUND(glUniform4f(glGetUniformLocation(m_ID, name.c_str()), x, y, z, w));
+	GL_ASSERT_UNIFORM_FOUND(glUniform4f(glGetUniformLocation(m_id, name.c_str()), x, y, z, w));
 }
 
 // TODO:

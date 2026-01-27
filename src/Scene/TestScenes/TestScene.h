@@ -2,17 +2,17 @@
 
 #include "Window/Window.h"
 #include "Camera/Camera.h"
+#include "Shader/Shader.h"
 
 #include <vector>
 
-typedef struct Mesh {
+struct Mesh {
 	uint32_t VAO;
-	Shader shader;
+	uint32_t shaderId;
 	uint32_t textureId;
 
-	Mesh(uint32_t VAO = 0, uint32_t shaderId = 0, uint32_t textureId)
-		: VAO(VAO), textureId(textureId) {
-		shader = 
+	Mesh(uint32_t VAO, uint32_t shaderId, uint32_t textureId)
+		: VAO(VAO), textureId(textureId), shaderId(shaderId) {
 	}
 };
 
@@ -26,13 +26,13 @@ private:
 	Window& m_window;
 	Camera m_mainCamera;
 
-	std::vector<Mesh> m_renderBuffers;
+	std::vector<Mesh> m_meshBuffer;
+	std::vector<Shader> m_shaderBuffer;
 	
 	void startFrame();
 	void endFrame();
 	void initScene();
 
-	std::vector<Shader> m_shaderBuffers;
 
 	Shader& getShader(const std::string& name);
 

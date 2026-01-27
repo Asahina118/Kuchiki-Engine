@@ -11,14 +11,14 @@ TestScene::TestScene(Window& window)
 	: m_window(window)
 {
 	Camera m_mainCamera;
-	m_renderBuffers.reserve(10);
-	m_shaderBuffers.reserve(10);
+	m_meshBuffer.reserve(10);
+	m_shaderBuffer.reserve(10);
 
-	m_renderBuffers.emplace_back(Mesh(5u, 3u));
+	m_meshBuffer.emplace_back(5u, 3u);
 
-	Mesh tempMesh = m_renderBuffers[0];
+	Mesh tempMesh = m_meshBuffer[0];
 
-	quill::info(g_logger, "testing m_renderBuffers: {} {}", tempMesh.textureId, tempMesh.VAO);
+	quill::info(g_logger, "testing m_meshBuffer: {} {}", tempMesh.textureId, tempMesh.VAO);
 }
 
 void TestScene::render()
@@ -28,7 +28,7 @@ void TestScene::render()
 	if (!m_window.windowShouldClose()) {
 		startFrame();
 
-		for (Mesh mesh : m_renderBuffers) {
+		for (Mesh mesh : m_meshBuffer) {
 			glUseProgram(mesh.shaderId);
 
 		}
@@ -76,8 +76,8 @@ void TestScene::initTestCube()
 
 	Texture testCubeTexture("Resources/container.jpg");
 	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
-	Mesh mesh(VAO, shader.m_ID, testCubeTexture.getId());
-	m_renderBuffers.push_back(mesh);
+	m_shaderBuffer.emplace_back(shader);
+	m_meshBuffer.emplace_back(VAO, shader.m_id, testCubeTexture.getId());
 }
 
 //uint32_t TestScene::loadTexture()
@@ -110,10 +110,10 @@ void TestScene::initTestCube()
 
 Shader& TestScene::getShader(const std::string& name)
 {
-	auto it = m_shaderRegistry.find(name);
-	if (it == m_shaderRegistry.end()) {
-		quill::error(g_logger, "Shader {} not found.", name);
-		throw
-	}
-	return *it->second;
+	//auto it = m_shaderRegistry.find(name);
+	//if (it == m_shaderRegistry.end()) {
+	//	quill::error(g_logger, "Shader {} not found.", name);
+	//	throw
+	//}
+	//return *it->second;
 }

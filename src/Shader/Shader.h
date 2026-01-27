@@ -12,11 +12,11 @@
 class Shader
 {
 public:
-	uint32_t m_ID;
+	uint32_t m_id;
 
 	Shader(const char* vertexPath, const char* fragmentPath);
-	Shader(std::string vertexPath, std::string fragmentPath);
-	Shader(std::string vertexPath, std::string geometryPath, std::string fragmentPath);
+	Shader(const std::string& vertexPath, const std::string& fragmentPath);
+	Shader(const std::string& vertexPath, const std::string& geometryPath, std::string fragmentPath);
 	Shader() = delete;
 	void use();
 
