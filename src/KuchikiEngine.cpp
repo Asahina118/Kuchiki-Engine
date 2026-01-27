@@ -17,8 +17,11 @@
 #include "Inputs/InputHandler.h"
 #include "Camera/Camera.h"
 
-#include <quill/SimpleSetup.h>
-#include <quill/LogFunctions.h>
+#include "Logger/KuchikiLogger.h"
+
+#include "Scene/TestScenes/TestScene.h"
+
+extern quill::Logger* global_logger_a;
 
 void printCameraInfo(const Camera& camera)
 {
@@ -28,8 +31,7 @@ void printCameraInfo(const Camera& camera)
 
 int main()
 {
-	auto* logger = quill::simple_logger();
-	quill::info(logger, "Hello from {}!", std::string_view{"Kuchiki Engine"});
+	quill::info(g_logger, "Hello from {}!", std::string_view{"Kuchiki Engine"});
 
 	const unsigned SCR_WIDTH = 800;
 	const unsigned SCR_HEIGHT = 600;
@@ -82,15 +84,16 @@ int main()
 	if (data) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		quill::info(logger, "Loaded texture from {}", textureFilePath);
+		quill::info(g_logger, "Loaded texture from {}", textureFilePath);
 	}
 	else {
-		quill::error(logger, "Failed to load texture");
+		quill::error(g_logger, "Failed to load texture");
 	}
 	stbi_image_free(data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	// end of texture loading
 
+	TestScene testScene(window);
 
 	while (!window.windowShouldClose()) {
 		inputHandler.processInput();

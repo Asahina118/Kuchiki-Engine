@@ -3,7 +3,7 @@
 	call;\
 	GLenum errorState = glGetError();\
 	if (errorState != GL_NO_ERROR) {\
-		quill::error(m_logger, "Uniform location not found at: {} {}\n", __FILE__, __LINE__);\
+		quill::error(g_logger, "Uniform location not found at: {} {}\n", __FILE__, __LINE__);\
 	}\
 }\
 while (0)
@@ -19,6 +19,8 @@ while (0)
 
 #include <quill/SimpleSetup.h>
 #include <quill/LogFunctions.h>
+
+#include "Logger/KuchikiLogger.h"
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
@@ -40,7 +42,7 @@ std::string Shader::readFile(const std::string& filePath)
 	std::ifstream file(filePath, std::ios::binary);
 
 	if (!file.is_open()) {
-		quill::error(m_logger, "Error reading file at {}:\n{}\n", filePath);
+		quill::error(g_logger, "Error reading file at {}:\n{}\n", filePath);
 	}
 
 	std::stringstream stream;
@@ -81,10 +83,10 @@ void Shader::checkShaderCompilation(const uint32_t shader, std::string_view file
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(shader, 512, NULL, infoLog);
-		quill::error(m_logger, "shader compilation failed at {}\n{}\n", filePath, infoLog);
+		quill::error(g_logger, "shader compilation failed at {}\n{}\n", filePath, infoLog);
 	}
 	else {
-		quill::info(m_logger, "shader compiled successfully from {}\n", filePath);
+		quill::info(g_logger, "shader compiled successfully from {}\n", filePath);
 	}
 }
 
@@ -95,10 +97,10 @@ void Shader::checkProgramCompilation(const uint32_t shaderProgram)
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(shaderProgram, 512, NULL, infoLog);
-		quill::error(m_logger, "shader program linking failed at {}\n", infoLog);
+		quill::error(g_logger, "shader program linking failed at {}\n", infoLog);
 	}
 	else {
-		quill::info(m_logger, "shader program linked successfully");
+		quill::info(g_logger, "shader program linked successfully");
 	}
 }
 
@@ -151,3 +153,6 @@ void Shader::setVec4(const std::string& name, float x, float y, float z, float w
 {
 	GL_ASSERT_UNIFORM_FOUND(glUniform4f(glGetUniformLocation(m_ID, name.c_str()), x, y, z, w));
 }
+
+// TODO:
+// uniform calls can be optimized later

@@ -6,9 +6,9 @@
 class Texture
 {
 public:
-	Texture();
+	Texture(const std::string& filePath);
 
-	uint32_t id() const;
+	uint32_t getId() const;
 	bool isLoaded() const;
 
 	bool loadFromFile(const std::string& filePath);

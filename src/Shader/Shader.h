@@ -33,8 +33,6 @@ public:
 	void setVec4(const std::string& name, float x, float y, float z, float w) const;
 
 private:
-	quill::v11::Logger* m_logger = quill::simple_logger();
-
 	std::string m_vertexSource;
 	std::string m_fragmentSource;
 

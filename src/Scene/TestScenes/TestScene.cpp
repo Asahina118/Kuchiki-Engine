@@ -2,12 +2,23 @@
 
 #include "Entities/Shapes.h"
 #include "Texture/Texture.h"
+#include "Logger/KuchikiLogger.h"
+#include "Shader/Shader.h"
+
+#include <stb_image/stb_image.h>
 
 TestScene::TestScene(Window& window)
 	: m_window(window)
 {
 	Camera m_mainCamera;
-	m_logger = quill::simple_logger();
+	m_renderBuffers.reserve(10);
+	m_shaderBuffers.reserve(10);
+
+	m_renderBuffers.emplace_back(Mesh(5u, 3u));
+
+	Mesh tempMesh = m_renderBuffers[0];
+
+	quill::info(g_logger, "testing m_renderBuffers: {} {}", tempMesh.textureId, tempMesh.VAO);
 }
 
 void TestScene::render()
@@ -17,13 +28,18 @@ void TestScene::render()
 	if (!m_window.windowShouldClose()) {
 		startFrame();
 
+		for (Mesh mesh : m_renderBuffers) {
+			glUseProgram(mesh.shaderId);
+
+		}
+
 		endFrame();
 	}
 }
 
 void TestScene::initScene()
 {
-
+	stbi_set_flip_vertically_on_load(true);
 }
 
 void TestScene::startFrame()
@@ -57,6 +73,11 @@ void TestScene::initTestCube()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, Shapes::Square::indices.size() * sizeof(uint32_t), Shapes::Square::indices.data(), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
+
+	Texture testCubeTexture("Resources/container.jpg");
+	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
+	Mesh mesh(VAO, shader.m_ID, testCubeTexture.getId());
+	m_renderBuffers.push_back(mesh);
 }
 
 //uint32_t TestScene::loadTexture()
@@ -86,3 +107,13 @@ void TestScene::initTestCube()
 	//glBindTexture(GL_TEXTURE_2D, 0);
 	//return texture;
 //}
+
+Shader& TestScene::getShader(const std::string& name)
+{
+	auto it = m_shaderRegistry.find(name);
+	if (it == m_shaderRegistry.end()) {
+		quill::error(g_logger, "Shader {} not found.", name);
+		throw
+	}
+	return *it->second;
+}
