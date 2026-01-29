@@ -10,6 +10,7 @@ struct Mesh {
 	uint32_t VAO;
 	uint32_t shaderId;
 	uint32_t textureId;
+	std::vector<std::shared_ptr<Shader>> m_shaderBuffer;
 
 	Mesh(uint32_t VAO, uint32_t shaderId, uint32_t textureId)
 		: VAO(VAO), textureId(textureId), shaderId(shaderId) {
@@ -27,9 +28,7 @@ private:
 	Camera m_mainCamera;
 
 	std::vector<Mesh> m_meshBuffer;
-	std::vector<Shader> m_shaderBuffer;
-
-	//std::vector<uint32_t> m_shaderBuffer;
+	std::unordered_map<std::string, Shader> shaderRegistry;
 	
 	void startFrame();
 	void endFrame();

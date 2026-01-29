@@ -13,7 +13,6 @@ TestScene::TestScene(Window& window)
 {
 	Camera m_mainCamera;
 	m_meshBuffer.reserve(10);
-	m_shaderBuffer.reserve(10);
 
 	m_meshBuffer.emplace_back(1u, 5u, 5u);
 
@@ -84,7 +83,7 @@ void TestScene::initTestCube()
 
 	Texture testCubeTexture("Resources/container.jpg");
 	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
-	m_shaderBuffer.emplace_back(shader);
+	//m_shaderBuffer.emplace_back(shader);
 	m_meshBuffer.emplace_back(VAO, shader.m_id, testCubeTexture.getId());
 }
 
