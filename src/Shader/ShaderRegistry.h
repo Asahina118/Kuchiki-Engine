@@ -3,18 +3,25 @@
 #include "Shader/Shader.h"
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 class ShaderRegistry 
 {
 public:
 	ShaderRegistry();
-	Shader& getShader(uint32_t idx);
-	uint32_t getOrCreateShader(const std::string& vertexPath, const std::string& fragmentPath);
+
+	Shader& getShader(const std::string& key);
+	Shader& getShader(const std::string& vertPath, const std::string& fragPath);
+	std::string put(const std::string& vertPath, const std::string& fragPath);
+	std::string getKey(const std::string& vertPath, const std::string& fragPath);
+
 private:
-	std::vector<std::unique_ptr<Shader>> m_shaders;
+	std::unordered_map<std::string, std::unique_ptr<Shader>> m_shaderRegistry;
+	const std::string& defaultShaderVert;
+	const std::string& defaultShaderFrag;
 };
 
-/**
+/*
 NOTE on how i want to implement a shader structure:
 
 std::unordered_map<key, &Shader>
@@ -29,4 +36,4 @@ in renderpass,
 		for (std::string key : std::vector<std::string>>)
 			get &Shader by key
 
-/
+*/

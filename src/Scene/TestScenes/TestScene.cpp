@@ -4,6 +4,7 @@
 #include "Texture/Texture.h"
 #include "Logger/KuchikiLogger.h"
 #include "Shader/Shader.h"
+#include "Shader/ShaderRegistry.h"
 
 #include <stb_image/stb_image.h>
 #include <iostream>
@@ -12,13 +13,6 @@ TestScene::TestScene(Window& window)
 	: m_window(window)
 {
 	Camera m_mainCamera;
-	m_meshBuffer.reserve(10);
-
-	m_meshBuffer.emplace_back(1u, 5u, 5u);
-
-	Mesh tempMesh = m_meshBuffer[0];
-
-
 	quill::info(g_logger, "testing m_meshBuffer: {} {}", tempMesh.textureId, tempMesh.VAO);
 }
 
@@ -26,6 +20,11 @@ void TestScene::render()
 {
 	initScene();
 	initMeshes();
+
+	// test
+	ShaderRegistry shaderRegistry;
+	shaderRegistry.put("GLSL/cube.vert", "GLSL/cube.frag");
+
 
 	if (!m_window.windowShouldClose()) {
 		startFrame();
@@ -61,30 +60,14 @@ void TestScene::endFrame()
 
 void TestScene::initTestCube()
 {
-	uint32_t VAO, VBO, EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, Shapes::Square::verticesTextured.size() * sizeof(float), Shapes::Square::verticesTextured.data(), GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, Shapes::Square::indices.size() * sizeof(uint32_t), Shapes::Square::indices.data(), GL_STATIC_DRAW);
-
-	glBindVertexArray(0);
-
-	Texture testCubeTexture("Resources/container.jpg");
+	Texture testCubeTexture("Resources/container.jpg", "_");
 	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
-	//m_shaderBuffer.emplace_back(shader);
-	m_meshBuffer.emplace_back(VAO, shader.m_id, testCubeTexture.getId());
+
+
+	Mesh mesh(Shapes::toVec(Shapes::Cube::vertices), Shapes::Cube::normals, Shapes::Cube::texCoords);
+
+	renderQueue.emplace_back();
+	
 }
 
 //uint32_t TestScene::loadTexture()
@@ -114,15 +97,3 @@ void TestScene::initTestCube()
 	//glBindTexture(GL_TEXTURE_2D, 0);
 	//return texture;
 //}
-
-Shader& TestScene::getShader(const std::string& name)
-{
-	//auto it = m_shaderRegistry.find(name);
-	//if (it == m_shaderRegistry.end()) {
-	//	quill::error(g_logger, "Shader {} not found.", name);
-	//	throw
-	//}
-	//return *it->second;
-	static Shader _(",", ",");
-	return _;
-}

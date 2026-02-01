@@ -4,13 +4,14 @@
 #include <stb_image/stb_image.h>
 #include "Logger/KuchikiLogger.h"
 
-Texture::Texture(const std::string& filePath)
+Texture::Texture(const std::string& texturePath, const std::string& textureType)
+	: m_texturePath(texturePath), m_textureType(textureType)
 {
 	glGenTextures(1, &m_id);
-	if (loadFromFile(filePath))
-		quill::info(g_logger, "Loaded texture from file {}", filePath);
+	if (loadFromFile(texturePath))
+		quill::info(g_logger, "Loaded texture from file {}", texturePath);
 	else
-		quill::error(g_logger, "Failed to load texture from file {}", filePath);
+		quill::error(g_logger, "Failed to load texture from file {}", texturePath);
 }
 
 uint32_t Texture::getId() const
@@ -18,7 +19,7 @@ uint32_t Texture::getId() const
 	return m_id;
 }
 
-bool Texture::loadFromFile(const std::string& filePath)
+bool Texture::loadFromFile(const std::string& texturePath)
 {
 	glBindTexture(GL_TEXTURE_2D, m_id);
 
@@ -28,7 +29,7 @@ bool Texture::loadFromFile(const std::string& filePath)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int32_t width, height, nrChannels;
-	unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
 	if (!data)
 		return false;
 

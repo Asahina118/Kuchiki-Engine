@@ -3,19 +3,10 @@
 #include "Window/Window.h"
 #include "Camera/Camera.h"
 #include "Shader/Shader.h"
+#include "Entities/Entity"
+#include "Entities/Mesh.h"
 
 #include <vector>
-
-struct Mesh {
-	uint32_t VAO;
-	uint32_t shaderId;
-	uint32_t textureId;
-	std::vector<std::shared_ptr<Shader>> m_shaderBuffer;
-
-	Mesh(uint32_t VAO, uint32_t shaderId, uint32_t textureId)
-		: VAO(VAO), textureId(textureId), shaderId(shaderId) {
-	}
-};
 
 class TestScene
 {
@@ -24,11 +15,18 @@ public:
 	void render();
 
 private:
+
+	// temp
+	struct Entity {
+		Mesh mesh;
+		Shader shader;
+		Texture texture;
+	};
+
 	Window& m_window;
 	Camera m_mainCamera;
 
-	std::vector<Mesh> m_meshBuffer;
-	std::unordered_map<std::string, Shader> shaderRegistry;
+	std::vector<Entity> renderQueue;
 	
 	void startFrame();
 	void endFrame();
