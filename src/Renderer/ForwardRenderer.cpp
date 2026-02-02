@@ -36,3 +36,8 @@ void ForwardRenderer::LightRenderPass(Scene& scene)
 		}
 	*/
 }
+
+std::string ForwardRenderer::registerShader(const std::string& vertPath, const std::string& fragPath)
+{
+	return m_shaderRegistry.put(vertPath, fragPath);
+}

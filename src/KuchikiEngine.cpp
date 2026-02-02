@@ -119,6 +119,11 @@ int main()
 		glfwPollEvents();
 	}
 
+	/*
+		Scene scene = Scene.setup();
+		Renderer.render(scene);
+	*/
+
 	glfwTerminate();
 
 	return 0;

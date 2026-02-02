@@ -82,11 +82,6 @@ uint32_t Mesh::getVAO()
 	return m_VAO;
 }
 
-void Mesh::draw()
-{
-	
-}
-
 /*
 	binding: 
 	0 = position

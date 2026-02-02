@@ -178,7 +178,14 @@ namespace Shapes
 
 
     template<size_t N>
-    std::vector<float> toVec(const float(&arr)[N]) {
+    std::vector<float> toVec(const float(&arr)[N]) 
+    {
         return { arr, arr + N };
+    }
+
+    template<size_t N>
+    std::vector<float> toVec(const std::array<float, N>& arr)
+    {
+        return { arr.begin(), arr.end() };
     }
 }

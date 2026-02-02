@@ -36,8 +36,8 @@ Shader& ShaderRegistry::getShader(const std::string& vertPath, const std::string
 
 std::string ShaderRegistry::put(const std::string& vertPath, const std::string& fragPath)
 {
-	const std::string& key = getKey(vertPath, fragPath);
-	m_shaderRegistry.emplace(key, std::make_unique<Shader>(vertPath, fragPath));
+	std::string key = getKey(vertPath, fragPath);
+	m_shaderRegistry.insert({ key, std::make_unique<Shader>(vertPath, fragPath) });
 	//std::cout << "The returned Shader has id: " << m_shaderRegistry.find(vertPath + fragPath)->second->m_id << std::endl;
 
 	return key;

@@ -12,19 +12,15 @@
 */
 class ForwardRenderer {
 public:
+
 	ForwardRenderer(ShaderRegistry& m_shaderRegistry);
 	
 	void render(Scene& scene);
 
+	std::string registerShader(const std::string& vertPath, const std::string& fragPath);
+
 private:
 
-	struct Entity
-	{
-		Mesh mesh;
-		Shader shader;
-	};
-
-	Entity entity;
 	ShaderRegistry& m_shaderRegistry;
 	uint32_t m_shadowFBO;
 

@@ -3,7 +3,7 @@
 #include "Window/Window.h"
 #include "Camera/Camera.h"
 #include "Shader/Shader.h"
-#include "Entities/Entity"
+#include "Entities/Entity.h"
 #include "Entities/Mesh.h"
 
 #include <vector>
@@ -19,7 +19,7 @@ private:
 	// temp
 	struct Entity {
 		Mesh mesh;
-		Shader shader;
+		std::string shaderKey;
 		Texture texture;
 	};
 

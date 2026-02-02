@@ -5,6 +5,7 @@
 #include "Logger/KuchikiLogger.h"
 #include "Shader/Shader.h"
 #include "Shader/ShaderRegistry.h"
+#include "Renderer/ForwardRenderer.h"
 
 #include <stb_image/stb_image.h>
 #include <iostream>
@@ -13,7 +14,13 @@ TestScene::TestScene(Window& window)
 	: m_window(window)
 {
 	Camera m_mainCamera;
-	quill::info(g_logger, "testing m_meshBuffer: {} {}", tempMesh.textureId, tempMesh.VAO);
+	//quill::info(g_logger, "testing m_meshBuffer: {} {}", tempMesh.textureId, tempMesh.VAO);
+
+	std::vector<float> tryoutVector = Shapes::toVec(Shapes::Cube::vertices);
+	for (int i = 0; i < tryoutVector.size(); i++) {
+		std::cout << tryoutVector[i] << ", ";
+	}
+	std::cout << std::endl;
 }
 
 void TestScene::render()
@@ -25,17 +32,19 @@ void TestScene::render()
 	ShaderRegistry shaderRegistry;
 	shaderRegistry.put("GLSL/cube.vert", "GLSL/cube.frag");
 
-
-	if (!m_window.windowShouldClose()) {
+	while (!m_window.windowShouldClose()) {
 		startFrame();
+		std::cout << "WHAT?" << std::endl;
 
-		for (Mesh mesh : m_meshBuffer) {
-			glUseProgram(mesh.shaderId);
-			quill::info(g_logger, "current mesh has VAO: {}\n", mesh.VAO);
-		}
+		//for (Mesh mesh : m_meshBuffer) {
+		//	glUseProgram(mesh.shaderId);
+		//	quill::info(g_logger, "current mesh has VAO: {}\n", mesh.VAO);
+		//}
 
 		endFrame();
 	}
+
+	std::cout << "ending the testscene render" << std::endl;
 }
 
 void TestScene::initScene()
@@ -55,7 +64,8 @@ void TestScene::startFrame()
 
 void TestScene::endFrame()
 {
-
+	glfwSwapBuffers(m_window.getWindow());
+	glfwPollEvents();
 }
 
 void TestScene::initTestCube()
@@ -63,10 +73,11 @@ void TestScene::initTestCube()
 	Texture testCubeTexture("Resources/container.jpg", "_");
 	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
 
+	Mesh mesh(Shapes::toVec(Shapes::Cube::vertices), Shapes::toVec(Shapes::Cube::normals), Shapes::toVec(Shapes::Cube::texCoords));
 
-	Mesh mesh(Shapes::toVec(Shapes::Cube::vertices), Shapes::Cube::normals, Shapes::Cube::texCoords);
+	//Mesh mesh(Shapes::toVec(Shapes::Cube::vertices), Shapes::Cube::normals, Shapes::Cube::texCoords);
 
-	renderQueue.emplace_back();
+	renderQueue.emplace_back(mesh, , testCubeTexture);
 	
 }
 
