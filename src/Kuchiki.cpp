@@ -132,5 +132,6 @@ void Kuchiki::run()
 
 std::string Kuchiki::registerShader(const std::string& vertPath, const std::string& fragPath)
 {
+	std::cout << "TESTING" << std::endl;
 	return "";
 }
