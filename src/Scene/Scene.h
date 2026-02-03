@@ -5,5 +5,8 @@
 class Scene
 {
 public:
-	virtual void render() = 0;
+	virtual ~Scene() = default;
+	virtual void init() = 0;
+	virtual void update(float dt) = 0;
+
 };

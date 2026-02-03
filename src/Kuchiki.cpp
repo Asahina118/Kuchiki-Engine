@@ -21,15 +21,18 @@
 
 #include "Scene/TestScenes/TestScene.h"
 
+#include "Kuchiki.h"
+
 extern quill::Logger* global_logger_a;
 
+// temp debug
 void printCameraInfo(const Camera& camera)
 {
 	glm::vec3 camPos = camera.getPosition();
 	std::cout << camPos.x << ", " << camPos.y << ", " << camPos.z << std::endl;
 }
 
-int main()
+void Kuchiki::run()
 {
 	quill::info(g_logger, "Hello from {}!", std::string_view{"Kuchiki Engine"});
 
@@ -93,13 +96,13 @@ int main()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	// end of texture loading
 
-	TestScene testScene(window);
-	testScene.render();
+	//TestScene testScene(window);
+	//testScene.render();
 
 	while (!window.windowShouldClose()) {
 		inputHandler.processInput();
 
-		//printCameraInfo(camera);//debug
+		printCameraInfo(camera);//debug
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -125,6 +128,9 @@ int main()
 	*/
 
 	glfwTerminate();
+}
 
-	return 0;
+std::string Kuchiki::registerShader(const std::string& vertPath, const std::string& fragPath)
+{
+	return "";
 }

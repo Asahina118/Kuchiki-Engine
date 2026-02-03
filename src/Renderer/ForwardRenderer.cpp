@@ -6,6 +6,11 @@ ForwardRenderer::ForwardRenderer(ShaderRegistry& shaderRegistry)
 {
 }
 
+void ForwardRenderer::render(Scene& scene) 
+{
+	
+}
+
 void ForwardRenderer::ShadowRenderPass()
 {
 	/*

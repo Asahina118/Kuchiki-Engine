@@ -7,6 +7,8 @@
 #include "Shader/ShaderRegistry.h"
 #include "Renderer/ForwardRenderer.h"
 
+#include "Kuchiki.h"
+
 #include <stb_image/stb_image.h>
 #include <iostream>
 
@@ -34,12 +36,14 @@ void TestScene::render()
 
 	while (!m_window.windowShouldClose()) {
 		startFrame();
-		std::cout << "WHAT?" << std::endl;
 
-		//for (Mesh mesh : m_meshBuffer) {
-		//	glUseProgram(mesh.shaderId);
-		//	quill::info(g_logger, "current mesh has VAO: {}\n", mesh.VAO);
-		//}
+		/*
+			updates physics or other logics
+		*/
+
+		/*
+			renderer only renders, does no any other things
+		*/
 
 		endFrame();
 	}
@@ -71,14 +75,13 @@ void TestScene::endFrame()
 void TestScene::initTestCube()
 {
 	Texture testCubeTexture("Resources/container.jpg", "_");
-	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
+	std::string shaderKey = Kuchiki::registerShader("GLSL/cube.vert", "GLSL/cube.frag");
 
 	Mesh mesh(Shapes::toVec(Shapes::Cube::vertices), Shapes::toVec(Shapes::Cube::normals), Shapes::toVec(Shapes::Cube::texCoords));
 
 	//Mesh mesh(Shapes::toVec(Shapes::Cube::vertices), Shapes::Cube::normals, Shapes::Cube::texCoords);
 
-	renderQueue.emplace_back(mesh, , testCubeTexture);
-	
+	renderQueue.emplace_back(mesh, shaderKey, testCubeTexture);
 }
 
 //uint32_t TestScene::loadTexture()

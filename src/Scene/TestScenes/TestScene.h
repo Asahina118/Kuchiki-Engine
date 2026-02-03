@@ -5,6 +5,7 @@
 #include "Shader/Shader.h"
 #include "Entities/Entity.h"
 #include "Entities/Mesh.h"
+#include "Renderer/ForwardRenderer.h"
 
 #include <vector>
 

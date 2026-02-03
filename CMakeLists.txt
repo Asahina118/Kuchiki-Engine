@@ -1,5 +1,5 @@
 ﻿cmake_minimum_required (VERSION 3.8)
-project ("KuchikiEngine")
+project ("Kuchiki")
 
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -18,6 +18,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
 endif()
 
 add_executable (${PROJECT_NAME} 
+	main.cpp
 	${SOURCES}
 	${IMGUI_SOURCES}
 	extern/glad/src/glad.c
@@ -60,4 +61,4 @@ file(
 	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-set_property(TARGET KuchikiEngine PROPERTY CXX_STANDARD 20)
+set_property(TARGET Kuchiki PROPERTY CXX_STANDARD 20)
