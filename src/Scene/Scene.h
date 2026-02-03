@@ -5,9 +5,8 @@
 class Scene
 {
 public:
-	Scene(Window&, Camera&);
+	virtual ~Scene() = default;
+	virtual void init() = 0;
+	virtual void update(float dt) = 0;
 
-private:
-	Window& m_window;
-	Camera& m_camera;
 };

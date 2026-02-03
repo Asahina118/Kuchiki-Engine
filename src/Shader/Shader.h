@@ -12,12 +12,12 @@
 class Shader
 {
 public:
-	uint32_t m_ID;
+	uint32_t m_id;
 
 	Shader(const char* vertexPath, const char* fragmentPath);
-	Shader(std::string vertexPath, std::string fragmentPath);
-	Shader(std::string vertexPath, std::string geometryPath, std::string fragmentPath);
-	Shader() = delete;
+	Shader(const std::string& vertexPath, const std::string& fragmentPath);
+	Shader(const std::string& vertexPath, const std::string& geometryPath, std::string fragmentPath);
+	Shader() = default;
 	void use();
 
 	// set uniform vairables
@@ -26,12 +26,13 @@ public:
 	void setFloat(const std::string& name, float value) const;
 	void setMat4(const std::string& name, glm::mat4 transform) const;
 	void setVec2(const std::string& name, glm::vec2 value) const;
+	void setVec2(const std::string& name, float x, float y) const;
 	void setVec3(const std::string& name, float x, float y, float z) const;
 	void setVec3(const std::string& name, glm::vec3 value) const;
+	void setVec4(const std::string& name, glm::vec4 value) const;
+	void setVec4(const std::string& name, float x, float y, float z, float w) const;
 
 private:
-	quill::v11::Logger* logger = quill::simple_logger();
-
 	std::string m_vertexSource;
 	std::string m_fragmentSource;
 

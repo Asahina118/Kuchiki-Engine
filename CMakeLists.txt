@@ -1,5 +1,5 @@
 ﻿cmake_minimum_required (VERSION 3.8)
-project ("KuchikiEngine")
+project ("Kuchiki")
 
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -10,18 +10,22 @@ find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 file(GLOB IMGUI_SOURCES 
-    "src/Imgui/*.cpp"
+    "extern/Imgui/*.cpp"
 )
 
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+	add_compile_definitions(DEBUG)
+endif()
+
 add_executable (${PROJECT_NAME} 
+	main.cpp
 	${SOURCES}
 	${IMGUI_SOURCES}
-	src/KuchikiEngine.cpp
 	extern/glad/src/glad.c
 )
 
 add_subdirectory(
-	extern/glfw
+	extern/GLFW
 	extern/quill_logger
 )
 
@@ -38,11 +42,23 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 file(
-	COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GLSL
-	DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+	COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/Resources
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+file(
+	COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/Resources
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 file(
 	COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GLSL
-	DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
 
-set_property(TARGET KuchikiEngine PROPERTY CXX_STANDARD 20)
+file(
+	COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GLSL
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+set_property(TARGET Kuchiki PROPERTY CXX_STANDARD 20)

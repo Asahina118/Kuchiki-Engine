@@ -1,7 +1,7 @@
 #include "Window.h"
 
 #include <glad/glad.h>
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 
@@ -64,7 +64,5 @@ void Window::setWindowShouldClose(bool shouldClose)
 
 void Window::processInput()
 {
-	if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		setWindowShouldClose(true);
-	}
+
 }
