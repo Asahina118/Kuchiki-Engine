@@ -2,7 +2,7 @@
 
 int main()
 {
-	Kuchiki::init();
+	//Kuchiki::init();
 	Kuchiki::run();
 	return 1;
 }
